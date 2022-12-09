@@ -133,10 +133,10 @@ hc keybind $Mod-i jumpto urgent
 # theme
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
-hc set frame_border_active_color '#888888'
-hc set frame_border_normal_color '#262626'
+hc set frame_border_normal_color '#282828'
+hc set frame_border_active_color '#dfbf8e'
 hc set frame_bg_normal_color '#101010'
-hc set frame_bg_active_color '#262626'
+hc set frame_bg_active_color '#24292E'
 hc set frame_border_width 1
 hc set always_show_frame on
 hc set frame_bg_transparent on
@@ -148,9 +148,9 @@ hc attr theme.title_font 'Dejavu Sans:pixelsize=12' # example using Xft
 # hc attr theme.title_font '-*-fixed-medium-r-*-*-13-*-*-*-*-*-*-*'
 hc attr theme.padding_top 0 # space below the title's baseline (i.e. text depth)
 hc attr theme.active.color '#262626'
-hc attr theme.title_color '#369369'
+hc attr theme.title_color '#89b482'
 hc attr theme.normal.color '#262626'
-hc attr theme.urgent.color '#2610e3'
+hc attr theme.urgent.color '#d3869b'
 hc attr theme.normal.title_color '#888888'
 hc attr theme.inner_width 0
 hc attr theme.inner_color black
@@ -159,15 +159,15 @@ hc attr theme.floating.border_width 0
 hc attr theme.floating.outer_width 0
 hc attr theme.floating.outer_color black
 hc attr theme.active.inner_color '#cccccc'
-hc attr theme.urgent.inner_color '#2610e3'
-hc attr theme.normal.inner_color '#262626'
+hc attr theme.urgent.inner_color '#e78a4e'
+hc attr theme.normal.inner_color '#dfbf8e'
 # copy inner color to outer_color
 for state in active urgent normal; do
     hc substitute C theme.${state}.inner_color \
         attr theme.${state}.outer_color C
 done
 
-hc attr theme.active.outer_width 1
+hc attr theme.active.outer_width 0
 hc attr theme.background_color '#262626'
 
 hc set window_gap 0
@@ -208,9 +208,12 @@ hc detect_monitors
 nitrogen --restore &
 
 # find the panel
-panel=~/.config/herbstluftwm/panel.sh
+#panel=~/.config/herbstluftwm/panel.sh
+panel=~/.config/herbstluftwm/polybar.sh
 [ -x "$panel" ] || panel=/nix/store/z8mc9474p14i11qhxxsbc9k7b15cs9fk-herbstluftwm-0.9.3/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(hc list_monitors | cut -d: -f1); do
     # start it on each monitor
     "$panel" "$monitor" &
 done
+
+#launching polybar
