@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if ! command -v dmenu > /dev/null 2>/dev/null ; then
+if ! command -v dmenu >/dev/null 2>/dev/null; then
 	echo "Error: Requirement dmenu not found in your PATH." >&2
 	exit 1
 fi
@@ -8,12 +8,15 @@ fi
 # Get the currently active tag
 tag=$(herbstclient attr tags.focus.name)
 
+dmenu_() {
+	dmenu -fn "Noto Sans Mono:bold:pixelsize=15" -nb "#282828" -nf "#dfbf8e" -sb "#7daea3" -sf "#282828" $@
+}
 # Redirect to dmenu_path if available
-if command -v dmenu_path > /dev/null 2>/dev/null ; then
-        selectedPath=$(dmenu_path | dmenu "$@")
+if command -v dmenu_path >/dev/null 2>/dev/null; then
+	selectedPath=$(dmenu_path | dmenu_ "$@")
 
 # If at least stest is present use the code from latest dmenu_path directly
-elif command -v stest > /dev/null 2>/dev/null ; then
+elif command -v stest >/dev/null 2>/dev/null; then
 	cachedir=${XDG_CACHE_HOME:-"$HOME/.cache"}
 	if [ -d "$cachedir" ]; then
 		cache=$cachedir/dmenu_run
@@ -22,9 +25,9 @@ elif command -v stest > /dev/null 2>/dev/null ; then
 	fi
 	IFS=:
 	if stest -dqr -n "$cache" $PATH; then
-		selectedPath=$(stest -flx $PATH | sort -u | tee "$cache" | dmenu "$@")
+		selectedPath=$(stest -flx $PATH | sort -u | tee "$cache" | dmenu_ "$@")
 	else
-		selectedPath=$(dmenu "$@" < "$cache")
+		selectedPath=$(dmenu "$@" <"$cache")
 	fi
 
 # Both not found -> unable to continue
